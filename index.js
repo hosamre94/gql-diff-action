@@ -1,5 +1,6 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
+const { debug } = require("console");
 const {getDiff} = require("graphql-schema-diff");
 const path = require("path");
 
@@ -86,5 +87,11 @@ ${dangerous}
             core.info("Deleted comment.")
         }
     }
-}).catch((err) => core.setFailed(err));
+}).catch((err) => {
+ console.error(err)
+ console.error(err.stack)
+ core.debug(err)
+ core.debug(err.stack)
+ core.setFailed(err)
+});
     
