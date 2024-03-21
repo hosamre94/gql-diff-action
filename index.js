@@ -86,5 +86,5 @@ ${dangerous}
             core.info("Deleted comment.")
         }
     }
-}).catch((err) => core.setFailed(err.message));
+}).catch((err) => core.setFailed(err));
     
