@@ -1,24 +1,23 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
-const { debug } = require("console");
-const {getDiff} = require("graphql-schema-diff");
-const path = require("path");
+import { getInput, info, debug, setFailed } from "@actions/core";
+import { context, getOctokit } from "@actions/github";
+import { getDiff } from "graphql-schema-diff";
+import { join } from "path";
 
-const header = core.getInput("header");
+const header = getInput("header");
 
 function resolveHome(filepath) {
     if (filepath[0] === '~') {
-        return path.join(process.env.HOME, filepath.slice(1));
+        return join(process.env.HOME, filepath.slice(1));
     }
     return filepath;
 }
 
-const oldSchema = resolveHome(core.getInput("old-schema"));
-const newSchema = resolveHome(core.getInput("new-schema"));
+const oldSchema = resolveHome(getInput("old-schema"));
+const newSchema = resolveHome(getInput("new-schema"));
 
 getDiff(oldSchema, newSchema).then(async result => {
-    const {repo:{owner, repo}, payload: {pull_request: {number}}} = github.context;
-    const kit = github.getOctokit(core.getInput("token"));
+    const {repo:{owner, repo}, payload: {pull_request: {number}}} = context;
+    const kit = getOctokit(getInput("token"));
 
     const {data: comments} = await kit.issues.listComments({
         owner,
@@ -26,7 +25,7 @@ getDiff(oldSchema, newSchema).then(async result => {
         issue_number: number
     });
     
-    core.info(JSON.stringify(comments, null, 2))
+    info(JSON.stringify(comments, null, 2))
 
     const existing = comments.find(comment => comment.body.startsWith(header));
     
@@ -74,7 +73,7 @@ ${dangerous}
             });
         }
     } else {
-        core.info("No schema changes.");
+        info("No schema changes.");
         
         if (existing) {
             await kit.issues.deleteComment({
@@ -84,14 +83,14 @@ ${dangerous}
             });
             
             
-            core.info("Deleted comment.")
+            info("Deleted comment.")
         }
     }
 }).catch((err) => {
  console.error(err)
  console.error(err.stack)
- core.debug(err)
- core.debug(err.stack)
- core.setFailed(err)
+ debug(err)
+ debug(err.stack)
+ setFailed(err)
 });
     
