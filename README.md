@@ -9,6 +9,9 @@ See [Example Usage](#example-usage) for generated schemas.
 # Build the dist code
 
 Checking in your node_modules directory can cause problems. As an alternative, you can use a tool called @vercel/ncc to compile your code and modules into one file used for distribution.
+  1. Run npm istall to download all dependencies
+
+     `npm i`
 
   1. Install vercel/ncc by running this command in your terminal.
 

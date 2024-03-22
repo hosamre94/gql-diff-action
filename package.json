@@ -4,7 +4,8 @@
   "description": "Posts a nice summary of the changes you made to your GraphQL schema in your Pull Request.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build index.js --license licenses.txt -m  --no-source-map-register"
   },
   "repository": {
     "type": "git",

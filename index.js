@@ -1,8 +1,8 @@
-const { getInput, info, debug, setFailed } = require("@actions/core");
-const { context, getOctokit } = require("@actions/github");
-const { getDiff } = require("graphql-schema-diff");
-const { join } = require("path");
-const { writeFile } = require("fs");
+import { getInput, info, debug, setFailed } from "@actions/core";
+import { context, getOctokit } from "@actions/github";
+import { getDiff } from "graphql-schema-diff";
+import { join } from "path";
+import { writeFile } from "fs";
 
 
 const header = getInput("header");
