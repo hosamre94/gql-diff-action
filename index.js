@@ -96,7 +96,7 @@ ${dangerous}
         }
     }
 }).catch((err) => {
- debug(err.stack)
+ setFailed(err.stack)
  setFailed(err)
 });
     
