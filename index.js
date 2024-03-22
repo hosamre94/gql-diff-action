@@ -72,6 +72,8 @@ ${dangerous}
                 body,
             });
         }
+
+        info(body);
     } else {
         info("No schema changes.");
         
