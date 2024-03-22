@@ -2,11 +2,13 @@ import { getInput, info, debug, setFailed } from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 import { getDiff } from "graphql-schema-diff";
 import { join } from "path";
+import { writeFile } from "node:fs";
+
 
 const header = getInput("header");
 
 function resolveHome(filepath) {
-    if (filepath[0] === '~') {
+    if (filepath != null && filepath !== '' && filepath[0] === '~') {
         return join(process.env.HOME, filepath.slice(1));
     }
     return filepath;
@@ -14,6 +16,7 @@ function resolveHome(filepath) {
 
 const oldSchema = resolveHome(getInput("old-schema"));
 const newSchema = resolveHome(getInput("new-schema"));
+const outputPath = resolveHome(getInput("output-path"));
 
 getDiff(oldSchema, newSchema).then(async result => {
     const {repo:{owner, repo}, payload: {pull_request: {number}}} = context;
@@ -55,6 +58,11 @@ ${result.diffNoColor.split("\n").slice(2).join("\n")}
 ${breaking}
 ${dangerous}
         `
+        
+        if(outputPath != null && outputPath !== '')
+        {
+            writeFile(outputPath, body);
+        }
 
         if (existing) {
             await kit.issues.updateComment({
@@ -73,7 +81,6 @@ ${dangerous}
             });
         }
 
-        info(body);
     } else {
         info("No schema changes.");
         
@@ -89,9 +96,6 @@ ${dangerous}
         }
     }
 }).catch((err) => {
- console.error(err)
- console.error(err.stack)
- debug(err)
  debug(err.stack)
  setFailed(err)
 });

@@ -17,6 +17,9 @@ inputs:
     description: 'Header to use in the comment'
     required: false
     default: '## 🗞 GraphQL Summary'
+  output-path:
+    description: 'The path to store the diff changes'
+    default: ''
 runs:
   using: 'node12'
   main: 'dist/index.js'
