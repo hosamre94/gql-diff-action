@@ -15,7 +15,6 @@ function resolveHome(filepath) {
 
 const oldSchema = resolveHome(getInput("old-schema"));
 const newSchema = resolveHome(getInput("new-schema"));
-const outputPath = resolveHome(getInput("output-path"));
 
 getDiff(oldSchema, newSchema).then(async result => {
     const {repo:{owner, repo}, payload: {pull_request: {number}}} = context;

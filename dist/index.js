@@ -100870,7 +100870,6 @@ function resolveHome(filepath) {
 
 const oldSchema = resolveHome((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("old-schema"));
 const newSchema = resolveHome((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("new-schema"));
-const outputPath = resolveHome((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("output-path"));
 
 (0,graphql_schema_diff__WEBPACK_IMPORTED_MODULE_2__/* .getDiff */ .a)(oldSchema, newSchema).then(async result => {
     const {repo:{owner, repo}, payload: {pull_request: {number}}} = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context;
