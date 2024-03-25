@@ -100787,6 +100787,35 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -100816,43 +100845,36 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
-var core = __nccwpck_require__(9200);
-// EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
-var github = __nccwpck_require__(65483);
-// EXTERNAL MODULE: ./node_modules/graphql-schema-diff/dist/index.js
-var dist = __nccwpck_require__(73327);
-// EXTERNAL MODULE: external "path"
-var external_path_ = __nccwpck_require__(71017);
-;// CONCATENATED MODULE: external "fs/promises"
-const promises_namespaceObject = require("fs/promises");
-;// CONCATENATED MODULE: ./index.js
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(9200);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(65483);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var graphql_schema_diff__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(73327);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(71017);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(path__WEBPACK_IMPORTED_MODULE_3__);
 
 
 
 
 
 
-
-const header = (0,core.getInput)("header");
+const header = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("header");
 
 function resolveHome(filepath) {
     if (filepath != null && filepath !== '' && filepath[0] === '~') {
-        return (0,external_path_.join)(process.env.HOME, filepath.slice(1));
+        return (0,path__WEBPACK_IMPORTED_MODULE_3__.join)(process.env.HOME, filepath.slice(1));
     }
     return filepath;
 }
 
-const oldSchema = resolveHome((0,core.getInput)("old-schema"));
-const newSchema = resolveHome((0,core.getInput)("new-schema"));
-const outputPath = resolveHome((0,core.getInput)("output-path"));
+const oldSchema = resolveHome((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("old-schema"));
+const newSchema = resolveHome((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("new-schema"));
+const outputPath = resolveHome((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("output-path"));
 
-(0,dist/* getDiff */.a)(oldSchema, newSchema).then(async result => {
-    const {repo:{owner, repo}, payload: {pull_request: {number}}} = github.context;
-    const kit = (0,github.getOctokit)((0,core.getInput)("token"));
+(0,graphql_schema_diff__WEBPACK_IMPORTED_MODULE_2__/* .getDiff */ .a)(oldSchema, newSchema).then(async result => {
+    const {repo:{owner, repo}, payload: {pull_request: {number}}} = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context;
+    const kit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("token"));
 
     const {data: comments} = await kit.rest.issues.listComments({
         owner,
@@ -100860,7 +100882,7 @@ const outputPath = resolveHome((0,core.getInput)("output-path"));
         issue_number: number
     });
     
-    (0,core.info)(JSON.stringify(comments, null, 2))
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(JSON.stringify(comments, null, 2))
 
     const existing = comments.find(comment => comment.body.startsWith(header));
     
@@ -100890,11 +100912,7 @@ ${result.diffNoColor.split("\n").slice(2).join("\n")}
 ${breaking}
 ${dangerous}
         `
-        
-        if(outputPath != null && outputPath !== '')
-        {
-           await (0,promises_namespaceObject.writeFile)(outputPath, body);
-        }
+        ;(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("diff_output", body);
 
         if (existing) {
             await kit.rest.issues.updateComment({
@@ -100914,7 +100932,7 @@ ${dangerous}
         }
 
     } else {
-        (0,core.info)("No schema changes.");
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)("No schema changes.");
         
         if (existing) {
             await kit.rest.issues.deleteComment({
@@ -100924,12 +100942,12 @@ ${dangerous}
             });
             
             
-            (0,core.info)("Deleted comment.")
+            (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)("Deleted comment.")
         }
     }
 }).catch((err) => {
- (0,core.setFailed)(err.stack)
- ;(0,core.setFailed)(err)
+ (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(err.stack)
+ ;(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(err)
 });
     
 })();

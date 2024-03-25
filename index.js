@@ -1,8 +1,7 @@
-import { getInput, info, debug, setFailed } from "@actions/core";
+import { getInput, info, setFailed, setOutput } from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 import { getDiff } from "graphql-schema-diff";
 import { join } from "path";
-import { writeFile } from "fs/promises";
 
 
 const header = getInput("header");
@@ -58,11 +57,7 @@ ${result.diffNoColor.split("\n").slice(2).join("\n")}
 ${breaking}
 ${dangerous}
         `
-        
-        if(outputPath != null && outputPath !== '')
-        {
-           await writeFile(outputPath, body);
-        }
+        setOutput("diff_output", body);
 
         if (existing) {
             await kit.rest.issues.updateComment({
