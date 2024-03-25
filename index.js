@@ -22,7 +22,7 @@ getDiff(oldSchema, newSchema).then(async result => {
     const {repo:{owner, repo}, payload: {pull_request: {number}}} = context;
     const kit = getOctokit(getInput("token"));
 
-    const {data: comments} = await kit.issues.listComments({
+    const {data: comments} = await kit.rest.issues.listComments({
         owner,
         repo,
         issue_number: number
@@ -65,7 +65,7 @@ ${dangerous}
         }
 
         if (existing) {
-            await kit.issues.updateComment({
+            await kit.rest.issues.updateComment({
                 owner,
                 repo,
                 comment_id: existing.id,
@@ -73,7 +73,7 @@ ${dangerous}
             });
             
         } else {
-            await kit.issues.createComment({
+            await kit.rest.issues.createComment({
                 owner,
                 repo,
                 issue_number: number,
@@ -85,7 +85,7 @@ ${dangerous}
         info("No schema changes.");
         
         if (existing) {
-            await kit.issues.deleteComment({
+            await kit.rest.issues.deleteComment({
                 owner,
                 repo,
                 comment_id: existing.id
