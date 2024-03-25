@@ -19,7 +19,7 @@ Checking in your node_modules directory can cause problems. As an alternative, y
 
   2. Compile your index.js file.
 
-      `ncc build index.js --license licenses.txt -m`
+      `ncc build index.js --license licenses.txt`
 
 ## Inputs
 

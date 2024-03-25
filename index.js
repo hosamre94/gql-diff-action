@@ -2,7 +2,7 @@ import { getInput, info, debug, setFailed } from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 import { getDiff } from "graphql-schema-diff";
 import { join } from "path";
-import { writeFile } from "fs";
+import { writeFile } from "fs/promises";
 
 
 const header = getInput("header");
@@ -61,7 +61,7 @@ ${dangerous}
         
         if(outputPath != null && outputPath !== '')
         {
-            writeFile(outputPath, body);
+           await writeFile(outputPath, body);
         }
 
         if (existing) {
